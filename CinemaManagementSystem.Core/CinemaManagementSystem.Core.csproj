@@ -28,4 +28,8 @@
     <ProjectReference Include="..\CinemaManagementSystem.Service\CinemaManagementSystem.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Theaters\Commands\Results\" />
+  </ItemGroup>
+
 </Project>

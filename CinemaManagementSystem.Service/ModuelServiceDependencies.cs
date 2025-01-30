@@ -10,6 +10,7 @@ namespace CinemaManagementSystem.Service
         {
 
             services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<ITheaterService, TheaterService>();
 
             return services;
         }

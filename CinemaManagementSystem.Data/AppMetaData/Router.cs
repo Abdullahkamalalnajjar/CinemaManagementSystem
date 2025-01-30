@@ -22,9 +22,9 @@
             public const string Delete = Prefix + "Delete/{id}";
             public const string Paginated = Prefix + "Paginated";
         }
-        public static class DepartmentRouting
+        public static class TheaterRouting
         {
-            private const string Prefix = Rule + "/" + "Department/";
+            private const string Prefix = Rule + "/" + "Theater/";
             public const string List = Prefix + ListRoute;
             public const string GetById = Prefix + SingleRoute;
             public const string Create = Prefix + "Create";
