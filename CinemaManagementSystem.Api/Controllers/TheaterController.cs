@@ -31,6 +31,12 @@ namespace CinemaManagementSystem.Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet(Router.TheaterRouting.Paginated)]
+        public async Task<IActionResult> GetTheaterPaginatedList([FromQuery] GetTheaterPaginatedListQuery query)
+        {
+            var response = await Mediator.Send(query);
+            return Ok(response);
+        }
 
     }
 }

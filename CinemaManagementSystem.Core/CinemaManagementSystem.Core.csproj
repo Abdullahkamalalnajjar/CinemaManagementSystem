@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Showtimes\Commands\Results\" />
     <Folder Include="Features\Theaters\Commands\Results\" />
   </ItemGroup>
 

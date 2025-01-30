@@ -41,5 +41,12 @@ namespace CinemaManagementSystem.Api.Controllers
             var response = await Mediator.Send(request);
             return NewResult(response);
         }
+        [HttpDelete(Router.MovieRouting.Delete)]
+        public async Task<IActionResult> DeleteMovieById([FromRoute] int id)
+        {
+            var request = new DeleteMovieCommand(id);
+            var response = await Mediator.Send(request);
+            return NewResult(response);
+        }
     }
 }

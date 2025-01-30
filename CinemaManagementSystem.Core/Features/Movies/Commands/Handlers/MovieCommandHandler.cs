@@ -12,7 +12,8 @@ namespace CinemaManagementSystem.Core.Features.Movies.Commands.Handlers
 {
     public class MovieCommandHandler : ResponseHandler,
         IRequestHandler<AddMovieCommand, Response<AddMovieCommandResponse>>,
-        IRequestHandler<EditMovieCommand, Response<string>>
+        IRequestHandler<EditMovieCommand, Response<string>>,
+        IRequestHandler<DeleteMovieCommand, Response<string>>
     {
         private readonly IStringLocalizer<SharedResources> _localizer;
         private readonly IMovieService _movieService;
@@ -41,6 +42,15 @@ namespace CinemaManagementSystem.Core.Features.Movies.Commands.Handlers
             if (editMoive == "Updated") return Updated<string>(_localizer[SharedResourcesKeys.Updated]);
 
             return BadRequest<string>(_localizer[SharedResourcesKeys.Updated]);
+        }
+
+        public async Task<Response<string>> Handle(DeleteMovieCommand request, CancellationToken cancellationToken)
+        {
+            var checkMovie = await _movieService.GetMovieByIdAsync(request.Id);
+            if (checkMovie is null) return NotFound<string>();
+            var result = await _movieService.DeleteMovieByIdAsync(request.Id);
+            if (result == "Deleted") return Deleted<string>();
+            return BadRequest<string>();
         }
     }
 }

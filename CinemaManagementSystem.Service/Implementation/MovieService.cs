@@ -61,6 +61,11 @@ namespace CinemaManagementSystem.Service.Implementation
             var result = await _movieRepository.GetTableNoTracking().FirstOrDefaultAsync(x => x.Title == movieName);
             return result is not null;
         }
+        public async Task<bool> IsMovieByIdExist(int movieId)
+        {
+            var result = await _movieRepository.GetTableNoTracking().FirstOrDefaultAsync(x => x.Id == movieId);
+            return result is not null;
+        }
         public async Task<bool> IsTitleExistExcludeSelf(int id, string title)
         {
             var result = await _movieRepository.GetTableNoTracking().Include(s => s.Showtimes)
@@ -68,5 +73,11 @@ namespace CinemaManagementSystem.Service.Implementation
             return result is not null;
         }
 
+        public async Task<string> DeleteMovieByIdAsync(int id)
+        {
+            var movie = await _movieRepository.GetByIdAsync(id);
+            await _movieRepository.DeleteAsync(movie);
+            return "Deleted";
+        }
     }
 }

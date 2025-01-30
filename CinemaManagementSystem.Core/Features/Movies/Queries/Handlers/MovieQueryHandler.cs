@@ -35,10 +35,7 @@ namespace CinemaManagementSystem.Core.Features.Movies.Queries.Handlers
         public async Task<Response<Movie>> Handle(GetMovieByIdQuery request, CancellationToken cancellationToken)
         {
             var movie = await _movieService.GetMovieByIdAsync(request.Id);
-            if (movie is null)
-            {
-                return NotFound<Movie>();
-            }
+            if (movie is null) return NotFound<Movie>("Movie not found");
             return Success(movie);
         }
 

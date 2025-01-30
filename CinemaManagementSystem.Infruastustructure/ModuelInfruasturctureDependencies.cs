@@ -12,7 +12,7 @@ namespace CinemaManagementSystem.Infrustructure
 
             services.AddTransient<IMovieRepository, MovieRepository>();
             services.AddTransient<ITheaterRepository, TheaterRepository>();
-            //services.AddTransient<IUserRefreshTokenRepository, UserRefreshTokenRepository>();
+            services.AddTransient<IShowtimeRepository, ShowtimeRepository>();
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             return services;
