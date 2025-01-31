@@ -1,8 +1,12 @@
 using CinemaManagementSystem.Core;
 using CinemaManagementSystem.Core.Middleware;
+using CinemaManagementSystem.Data.Entities.Identity;
+using CinemaManagementSystem.infrustructure;
+using CinemaManagementSystem.infrustructure.Seeder;
 using CinemaManagementSystem.Infrustructure;
 using CinemaManagementSystem.Infrustructure.DbContext;
 using CinemaManagementSystem.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -18,7 +22,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #region Dependencies
-builder.Services.AddServiceDependencies().AddCoreDependencies().AddInfrustructureDependencies();
+builder.Services.AddServiceDependencies()
+    .AddCoreDependencies()
+   .AddServiceRegisteration(builder.Configuration)
+    .AddInfrustructureDependencies();
 //builder.Services.AddSwagger();
 #endregion
 
@@ -66,15 +73,15 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 #region Seeder
-//using (var createscope = app.Services.CreateScope())
-//{
-//    var userManger = createscope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-//    var roleManger = createscope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-//    await UserSeeder.SeedAsync(userManger);
-//    await RolesSeeder.SeedAsync(roleManger);
-//}
+using (var createscope = app.Services.CreateScope())
+{
+    var userManger = createscope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    var roleManger = createscope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await RolesSeeder.SeedAsync(roleManger);
+    await UserSeeder.SeedAsync(userManger);
+}
 
-//;
+;
 
 
 #endregion
@@ -103,11 +110,10 @@ catch (Exception ex)
 
 
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
+
 app.UseSwagger();
 app.UseSwaggerUI();
-//}
+
 
 #region Localization Middleware
 var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
