@@ -27,5 +27,14 @@ namespace CinemaManagementSystem.Service.Implementation
                 .FirstOrDefaultAsync(x => x.Id == id);
             return result;
         }
+
+        public async Task<List<Showtime>> GetShowtimeListAsync()
+        {
+            var result = await _showtimeRepository.GetTableNoTracking()
+                .Include(r => r.Reservations)
+                .Include(m => m.Movie)
+                .Include(t => t.Theater).ToListAsync();
+            return result;
+        }
     }
 }

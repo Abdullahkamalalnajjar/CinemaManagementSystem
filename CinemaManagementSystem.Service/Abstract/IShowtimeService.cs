@@ -6,6 +6,7 @@ namespace CinemaManagementSystem.Service.Abstract
     {
         public Task<string> AddShowtimeAsync(Showtime command);
         public Task<Showtime?> GetShowtimeByIdAsync(int id);
+        public Task<List<Showtime>> GetShowtimeListAsync();
 
     }
 }

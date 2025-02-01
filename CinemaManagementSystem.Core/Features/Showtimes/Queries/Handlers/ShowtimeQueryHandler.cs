@@ -9,7 +9,9 @@ using Microsoft.Extensions.Localization;
 
 namespace CinemaManagementSystem.Core.Features.Showtimes.Queries.Handlers
 {
-    public class ShowtimeQueryHandler : ResponseHandler, IRequestHandler<GetShowtimeByIdQuery, Response<GetShowtimeByIdResponse>>
+    public class ShowtimeQueryHandler : ResponseHandler,
+        IRequestHandler<GetShowtimeByIdQuery, Response<GetShowtimeByIdResponse>>,
+        IRequestHandler<GetShowtimeListQuery, Response<List<GetShowtimeByIdResponse>>>
     {
         private readonly IShowtimeService _showtimeService;
         private readonly IMapper _mapper;
@@ -28,6 +30,12 @@ namespace CinemaManagementSystem.Core.Features.Showtimes.Queries.Handlers
             return Success(response);
         }
 
+        public async Task<Response<List<GetShowtimeByIdResponse>>> Handle(GetShowtimeListQuery request, CancellationToken cancellationToken)
+        {
+            var result = await _showtimeService.GetShowtimeListAsync();
+            var response = _mapper.Map<List<GetShowtimeByIdResponse>>(result);
+            return Success(response);
+        }
     }
 
 }

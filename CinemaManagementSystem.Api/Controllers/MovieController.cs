@@ -2,13 +2,15 @@
 using CinemaManagementSystem.Core.Features.Movies.Commands.Models;
 using CinemaManagementSystem.Core.Features.Movies.Queries.Models;
 using CinemaManagementSystem.Data.AppMetaData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaManagementSystem.Api.Controllers
 {
-
+    [Authorize(Roles = "Admin")]
     public class MovieController : AppBaseController
     {
+        [Authorize(Policy = "CreateMovie")]
         [HttpPost(Router.MovieRouting.Create)]
         public async Task<IActionResult> CreateMovie([FromBody] AddMovieCommand command)
         {

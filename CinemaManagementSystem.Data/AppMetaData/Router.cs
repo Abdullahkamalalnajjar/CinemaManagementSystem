@@ -64,6 +64,8 @@
             private const string Prefix = Rule + "/" + "Authorization/";
             public const string CreateRole = Prefix + "CreateRole";
             public const string MangeUserRoles = Prefix + "mange-user-roles/{userId}";
+            public const string GetRolesList = Prefix + "GetRolesList";
+            public const string GetClimsList = Prefix + "GetClaimsList";
             public const string MangeUserClaims = Prefix + "mange-user-calims/{userId}";
             public const string UpdateRole = Prefix + "UpdateRole";
             public const string UpdateClaims = Prefix + "UpdateClaims";

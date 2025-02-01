@@ -22,5 +22,12 @@ namespace CinemaManagementSystem.Api.Controllers
             var response = await Mediator.Send(request);
             return NewResult(response);
         }
+        [HttpGet(Router.ShowtimeRouting.List)]
+        public async Task<IActionResult> GetShowtimeList()
+        {
+            var request = new GetShowtimeListQuery();
+            var response = await Mediator.Send(request);
+            return NewResult(response);
+        }
     }
 }

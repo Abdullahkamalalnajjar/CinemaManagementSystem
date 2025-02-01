@@ -14,6 +14,7 @@ namespace CinemaManagementSystem.Service
             services.AddScoped<IShowtimeService, ShowtimeService>();
             services.AddScoped<IAppUserService, AppUserService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
 
             return services;
         }
