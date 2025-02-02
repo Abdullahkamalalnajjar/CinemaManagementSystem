@@ -15,6 +15,8 @@ namespace CinemaManagementSystem.Service
             services.AddScoped<IAppUserService, AppUserService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddScoped<IReservationService, ReservationService>();
+            services.AddScoped<IReservedSeatService, ReservedSeatService>();
 
             return services;
         }

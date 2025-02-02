@@ -43,6 +43,28 @@
             public const string Delete = Prefix + "Delete/{id}";
             public const string Paginated = Prefix + "Paginated";
         }
+
+        public static class ReservationRouting
+        {
+            private const string Prefix = Rule + "/" + "Reservation/";
+            public const string List = Prefix + ListRoute;
+            public const string GetById = Prefix + SingleRoute;
+            public const string Create = Prefix + "Create";
+            public const string Edit = Prefix + "Edit";
+            public const string Delete = Prefix + "Delete/{id}";
+            public const string Paginated = Prefix + "Paginated";
+        }
+
+        public static class ReservedSeatRouting
+        {
+            private const string Prefix = Rule + "/" + "ReservedSeat/";
+            public const string List = Prefix + ListRoute;
+            public const string GetById = Prefix + SingleRoute;
+            public const string Create = Prefix + "Create";
+            public const string Edit = Prefix + "Edit";
+            public const string Delete = Prefix + "Delete/{id}";
+            public const string Paginated = Prefix + "Paginated";
+        }
         public static class UserRouting
         {
             private const string Prefix = Rule + "/" + "AppUser/";

@@ -9,10 +9,13 @@
   <ItemGroup>
     <Compile Remove="Features\Movies\NewFolder\**" />
     <Compile Remove="Features\Movie\**" />
+    <Compile Remove="Features\Reservations\**" />
     <EmbeddedResource Remove="Features\Movies\NewFolder\**" />
     <EmbeddedResource Remove="Features\Movie\**" />
+    <EmbeddedResource Remove="Features\Reservations\**" />
     <None Remove="Features\Movies\NewFolder\**" />
     <None Remove="Features\Movie\**" />
+    <None Remove="Features\Reservations\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +33,7 @@
 
   <ItemGroup>
     <Folder Include="Features\Authorization\Queries\Response\" />
+    <Folder Include="Features\ReservedSeats\Commands\Results\" />
     <Folder Include="Features\Showtimes\Commands\Results\" />
     <Folder Include="Features\Theaters\Commands\Results\" />
   </ItemGroup>

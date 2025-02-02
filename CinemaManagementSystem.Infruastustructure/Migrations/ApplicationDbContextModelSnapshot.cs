@@ -187,10 +187,7 @@ namespace CinemaManagementSystem.Infruasturcture.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AppUserId1")
+                    b.Property<string>("AppUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -208,7 +205,7 @@ namespace CinemaManagementSystem.Infruasturcture.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId1");
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("ShowtimeId");
 
@@ -437,7 +434,7 @@ namespace CinemaManagementSystem.Infruasturcture.Migrations
                 {
                     b.HasOne("CinemaManagementSystem.Data.Entities.Identity.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId1")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

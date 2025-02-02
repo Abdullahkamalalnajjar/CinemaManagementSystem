@@ -48,7 +48,10 @@ namespace CinemaManagementSystem.Service.Implementation
         public Task<List<Theater>> GetTheaterListAsync()
         {
             var result = _theaterRepository.GetTableNoTracking()
+
                 .Include(x => x.Showtimes).ThenInclude(s => s.Reservations)
+                .Include(x => x.Showtimes).ThenInclude(s => s.Reservations).ThenInclude(A => A.AppUser)
+
                 .Include(x => x.Showtimes).ThenInclude(s => s.Movie)
                 .ToListAsync();
             return result;
@@ -78,5 +81,10 @@ namespace CinemaManagementSystem.Service.Implementation
 
         }
 
+        public async Task<string> DeleteTheaterAsync(Theater theater)
+        {
+            await _theaterRepository.DeleteAsync(theater);
+            return "Deleted";
+        }
     }
 }

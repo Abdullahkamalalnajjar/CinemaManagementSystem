@@ -11,7 +11,8 @@ namespace CinemaManagementSystem.Core.Features.Theaters.Commands.Handlers
 {
     public class TheaterCommandHandler : ResponseHandler,
         IRequestHandler<AddTheaterCommand, Response<string>>,
-        IRequestHandler<EditTheaterCommand, Response<string>>
+        IRequestHandler<EditTheaterCommand, Response<string>>,
+        IRequestHandler<DeleteTheaterCommand, Response<string>>
     {
         private readonly IStringLocalizer<SharedResources> _localizer;
         private readonly ITheaterService _theaterService;
@@ -42,6 +43,14 @@ namespace CinemaManagementSystem.Core.Features.Theaters.Commands.Handlers
             return BadRequest<string>("حدث خطأ أثناء تعديل القاعه");
         }
 
-
+        public async Task<Response<string>> Handle(DeleteTheaterCommand request, CancellationToken cancellationToken)
+        {
+            // Check if the theater exists
+            var result = await _theaterService.GetTheaterByIdAsync(request.Id);
+            if (result is null) return NotFound<string>("القاعه غير موجوده");
+            var deleteResult = await _theaterService.DeleteTheaterAsync(result);
+            if (deleteResult == "Deleted") return Deleted<string>();
+            return BadRequest<string>("حدث خطأ أثناء حذف القاعه");
+        }
     }
 }

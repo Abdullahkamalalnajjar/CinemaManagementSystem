@@ -2,10 +2,12 @@
 using CinemaManagementSystem.Data.Helpers;
 using CinemaManagementSystem.Infrustructure.DbContext;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace CinemaManagementSystem.infrustructure
@@ -43,27 +45,46 @@ namespace CinemaManagementSystem.infrustructure
             var jwtSettings = new JwtSettings();
             configuration.GetSection(nameof(jwtSettings)).Bind(jwtSettings);
             services.AddSingleton(jwtSettings);
-
             services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(x =>
+                    ValidateIssuer = jwtSettings.ValidateIssuer,
+                    ValidIssuers = new[] { jwtSettings.Issuer },
+                    ValidateIssuerSigningKey = jwtSettings.ValidateIssuerSigningKey,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                    ValidAudience = jwtSettings.Audience,
+                    ValidateAudience = jwtSettings.ValidateAudience,
+                    ValidateLifetime = jwtSettings.ValidateLifeTime,
+                };
+
+                // ✅ إضافة رسالة خطأ مخصصة عند رفض المصادقة
+                x.Events = new JwtBearerEvents
                 {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
+                    OnChallenge = context =>
                     {
-                        ValidateIssuer = jwtSettings.ValidateIssuer,
-                        ValidIssuers = new[] { jwtSettings.Issuer },
-                        ValidateIssuerSigningKey = jwtSettings.ValidateIssuerSigningKey,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
-                        ValidAudience = jwtSettings.Audience,
-                        ValidateAudience = jwtSettings.ValidateAudience,
-                        ValidateLifetime = jwtSettings.ValidateLifeTime,
-                    };
-                });
+                        context.HandleResponse(); // منع الرد الافتراضي
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        context.Response.ContentType = "application/json";
+
+                        var result = JsonConvert.SerializeObject(new
+                        {
+                            statusCode = 401,
+                            message = "غير مصرح لك، يُرجى تسجيل الدخول باستخدام التوكن."
+                        });
+
+                        return context.Response.WriteAsync(result);
+                    }
+                };
+            });
+
 
             services.AddAuthorization(options =>
             {

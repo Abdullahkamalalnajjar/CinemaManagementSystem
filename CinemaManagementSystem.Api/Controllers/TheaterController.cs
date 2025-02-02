@@ -23,6 +23,13 @@ namespace CinemaManagementSystem.Api.Controllers
             var response = await Mediator.Send(command);
             return NewResult(response);
         }
+        [HttpDelete(Router.TheaterRouting.Delete)]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var command = new DeleteTheaterCommand { Id = id };
+            var response = await Mediator.Send(command);
+            return NewResult(response);
+        }
         [HttpGet(Router.TheaterRouting.List)]
         public async Task<IActionResult> GetTheaterList()
         {

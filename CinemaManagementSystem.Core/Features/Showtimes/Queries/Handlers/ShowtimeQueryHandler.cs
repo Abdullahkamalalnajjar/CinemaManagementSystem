@@ -3,6 +3,7 @@ using CinemaManagementSystem.Core.Bases;
 using CinemaManagementSystem.Core.Features.Showtimes.Queries.Models;
 using CinemaManagementSystem.Core.Features.Showtimes.Queries.Results;
 using CinemaManagementSystem.Core.Resources;
+using CinemaManagementSystem.Core.Wrappers;
 using CinemaManagementSystem.Service.Abstract;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -11,7 +12,8 @@ namespace CinemaManagementSystem.Core.Features.Showtimes.Queries.Handlers
 {
     public class ShowtimeQueryHandler : ResponseHandler,
         IRequestHandler<GetShowtimeByIdQuery, Response<GetShowtimeByIdResponse>>,
-        IRequestHandler<GetShowtimeListQuery, Response<List<GetShowtimeByIdResponse>>>
+        IRequestHandler<GetShowtimeListQuery, Response<List<GetShowtimeByIdResponse>>>,
+        IRequestHandler<GetShowtimePaginatedListQuery, PaginatedResult<GetShowtimePaginatedListResponse>>
     {
         private readonly IShowtimeService _showtimeService;
         private readonly IMapper _mapper;
@@ -35,6 +37,16 @@ namespace CinemaManagementSystem.Core.Features.Showtimes.Queries.Handlers
             var result = await _showtimeService.GetShowtimeListAsync();
             var response = _mapper.Map<List<GetShowtimeByIdResponse>>(result);
             return Success(response);
+        }
+
+        public Task<PaginatedResult<GetShowtimePaginatedListResponse>> Handle(GetShowtimePaginatedListQuery request, CancellationToken cancellationToken)
+        {
+            var filterData = _showtimeService.FilterShowtimeAsQueryable(request.Search, request.ShowtimeOrderingEnum);
+
+            var mapper = _mapper.ProjectTo<GetShowtimePaginatedListResponse>(filterData);
+
+            var paginatedList = mapper.ToPaginatedListAsync(request.PageNumber, request.PageSize);
+            return paginatedList;
         }
     }
 

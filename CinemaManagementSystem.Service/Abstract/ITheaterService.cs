@@ -13,6 +13,7 @@ namespace CinemaManagementSystem.Service.Abstract
         public Task<List<Theater>> GetTheaterListAsync();
         public IQueryable<Theater> GetTheatersAsQueryable();
         public Task<string> EditTheaterAsync(Theater theater);
+        public Task<string> DeleteTheaterAsync(Theater theater);
         public IQueryable<Theater> FilterTheaterAsQueryable(string search, TheaterOrdering theaterOrdering);
 
 

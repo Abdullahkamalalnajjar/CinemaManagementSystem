@@ -7,7 +7,9 @@ namespace CinemaManagementSystem.Core.Mapping.Showtimes
         public ShowtimeProfiles()
         {
             AddShowtimeCommandMapper();
+            EditShowtimeCommandMapper();
             GetShowtimeByIdQueryMapper();
+            GetShowtimePaginatedListResponseMapper();
         }
     }
 }

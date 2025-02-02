@@ -13,6 +13,8 @@ namespace CinemaManagementSystem.Infrustructure
             services.AddTransient<IMovieRepository, MovieRepository>();
             services.AddTransient<ITheaterRepository, TheaterRepository>();
             services.AddTransient<IShowtimeRepository, ShowtimeRepository>();
+            services.AddTransient<IReservationRepository, ReservationRepository>();
+            services.AddTransient<IReservedSeatRepository, ReservedSeatRepository>();
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             return services;

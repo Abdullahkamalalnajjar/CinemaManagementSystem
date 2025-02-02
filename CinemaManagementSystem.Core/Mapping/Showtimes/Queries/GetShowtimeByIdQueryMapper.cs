@@ -1,6 +1,6 @@
 ﻿using CinemaManagementSystem.Core.Features.Showtimes.Queries.Results;
-using CinemaManagementSystem.Core.Features.Theaters.Queries.Results;
 using CinemaManagementSystem.Data.Entities;
+using Reservations = CinemaManagementSystem.Core.Features.Showtimes.Queries.Results.Reservations;
 
 namespace CinemaManagementSystem.Core.Mapping.Showtimes
 {

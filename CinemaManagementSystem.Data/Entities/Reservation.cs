@@ -5,7 +5,7 @@ namespace CinemaManagementSystem.Data.Entities
     public class Reservation
     {
         public int Id { get; set; } // معرف الحجز
-        public int AppUserId { get; set; } // معرف المستخدم الذي قام بالحجز
+        public string AppUserId { get; set; } // معرف المستخدم الذي قام بالحجز
         public AppUser AppUser { get; set; } // كيان المستخدم المرتبط
         public int ShowtimeId { get; set; } // معرف وقت العرض المرتبط
         public Showtime Showtime { get; set; } // كيان وقت العرض المرتبط
