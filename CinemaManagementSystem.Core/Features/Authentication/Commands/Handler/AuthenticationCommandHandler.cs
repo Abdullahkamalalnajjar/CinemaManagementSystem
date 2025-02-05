@@ -1,5 +1,5 @@
 using CinemaManagementSystem.Core.Bases;
-using CinemaManagementSystem.Core.Features.Authentication.Model;
+using CinemaManagementSystem.Core.Features.Authentication.Commands.Model;
 using CinemaManagementSystem.Core.Resources;
 using CinemaManagementSystem.Data.Entities.Identity;
 using CinemaManagementSystem.Data.Helpers;
@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 
-namespace CinemaManagementSystem.Core.Features.Authentication.Handler;
+namespace CinemaManagementSystem.Core.Features.Authentication.Commands.Handler;
 
 public class AuthenticationCommandHandler : ResponseHandler, IRequestHandler<SignInCommand, Response<JwtAuthResult>>
 {

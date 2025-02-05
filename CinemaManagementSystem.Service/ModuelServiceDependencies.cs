@@ -1,5 +1,6 @@
 ﻿using CinemaManagementSystem.Service.Abstract;
 using CinemaManagementSystem.Service.Implementation;
+using CinemaManagementSystem.Service.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CinemaManagementSystem.Service
@@ -17,6 +18,7 @@ namespace CinemaManagementSystem.Service
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IReservedSeatService, ReservedSeatService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             return services;
         }

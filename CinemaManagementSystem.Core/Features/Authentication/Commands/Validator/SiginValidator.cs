@@ -1,9 +1,9 @@
-using CinemaManagementSystem.Core.Features.Authentication.Model;
+using CinemaManagementSystem.Core.Features.Authentication.Commands.Model;
 using CinemaManagementSystem.Core.Resources;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
-namespace CinemaManagementSystem.Core.Features.Authentication.Validator;
+namespace CinemaManagementSystem.Core.Features.Authentication.Commands.Validator;
 
 public class SiginValidator : AbstractValidator<SignInCommand>
 {

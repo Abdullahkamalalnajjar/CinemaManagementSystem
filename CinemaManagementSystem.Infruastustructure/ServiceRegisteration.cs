@@ -43,8 +43,11 @@ namespace CinemaManagementSystem.infrustructure
 
             //JWT AUTHENTICATE
             var jwtSettings = new JwtSettings();
+            var emailSettings = new EmailSettings();
+            configuration.GetSection(nameof(emailSettings)).Bind(emailSettings);
             configuration.GetSection(nameof(jwtSettings)).Bind(jwtSettings);
             services.AddSingleton(jwtSettings);
+            services.AddSingleton(emailSettings);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

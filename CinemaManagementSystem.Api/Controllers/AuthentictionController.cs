@@ -1,5 +1,6 @@
 using CinemaManagementSystem.Api.Base;
-using CinemaManagementSystem.Core.Features.Authentication.Model;
+using CinemaManagementSystem.Core.Features.Authentication.Commands.Model;
+using CinemaManagementSystem.Core.Features.Authentication.Queries.Models;
 using CinemaManagementSystem.Data.AppMetaData;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,4 +16,10 @@ public class AuthenticationController : AppBaseController
         return Ok(response);
     }
 
+    [HttpGet(Router.AuthenticationRouting.ConfirmEmail)]
+    public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailQuery query)
+    {
+        var response = await Mediator.Send(query);
+        return NewResult(response);
+    }
 }

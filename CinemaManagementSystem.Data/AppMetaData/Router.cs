@@ -65,6 +65,14 @@
             public const string Delete = Prefix + "Delete/{id}";
             public const string Paginated = Prefix + "Paginated";
         }
+
+
+        public static class EmailRouting
+        {
+            private const string Prefix = Rule + "/" + "Email/";
+            public const string SendEmail = Prefix + "SendEmail";
+
+        }
         public static class UserRouting
         {
             private const string Prefix = Rule + "/" + "AppUser/";
@@ -80,6 +88,7 @@
         {
             private const string Prefix = Rule + "/" + "Authentication/";
             public const string SginIn = Prefix + "SginIn";
+            public const string ConfirmEmail = Prefix + "ConfirmEmail";
         }
         public static class AuthorizationRouting
         {

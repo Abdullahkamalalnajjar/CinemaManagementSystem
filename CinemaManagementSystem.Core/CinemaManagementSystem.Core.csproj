@@ -32,7 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Authentication\Queries\Results\" />
     <Folder Include="Features\Authorization\Queries\Response\" />
+    <Folder Include="Features\Emails\Commands\Results\" />
+    <Folder Include="Features\Emails\Queries\" />
     <Folder Include="Features\ReservedSeats\Commands\Results\" />
     <Folder Include="Features\Showtimes\Commands\Results\" />
     <Folder Include="Features\Theaters\Commands\Results\" />

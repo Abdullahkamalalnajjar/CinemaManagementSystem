@@ -3,6 +3,7 @@ using CinemaManagementSystem.Core.Bases;
 using CinemaManagementSystem.Core.Features.Users.Command.Model;
 using CinemaManagementSystem.Core.Resources;
 using CinemaManagementSystem.Data.Entities.Identity;
+using CinemaManagementSystem.Service.Abstract;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,38 +19,57 @@ public class AppUserHandler : ResponseHandler,
 {
     private readonly IStringLocalizer<SharedResources> _localizer;
     private readonly IMapper _mapper;
+    private readonly IAppUserService _appUserService;
     private readonly UserManager<AppUser> _userManager;
 
-    public AppUserHandler(IStringLocalizer<SharedResources> localizer, IMapper mapper, UserManager<AppUser> userManager) : base(localizer)
+    public AppUserHandler(IStringLocalizer<SharedResources> localizer, IMapper mapper, IAppUserService appUserService, UserManager<AppUser> userManager) : base(localizer)
     {
         _localizer = localizer;
         _mapper = mapper;
+        _appUserService = appUserService;
         _userManager = userManager;
     }
 
     public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
-        // check email exist or no
-        var checkEmailUser = await _userManager.FindByEmailAsync(request.Email);
-        if (checkEmailUser != null) return BadRequest<string>(_localizer[SharedResourcesKeys.Email] + ":" + _localizer[SharedResourcesKeys.IsExist]);
-        // check username exist or no
-        var checkUsername = await _userManager.FindByNameAsync(request.Username);
-        if (checkUsername != null) return BadRequest<string>(_localizer[SharedResourcesKeys.UserName] + ":" + _localizer[SharedResourcesKeys.IsExist]);
-        // Make Mapping
-        var user = _mapper.Map<AppUser>(request);
-        // Create user
-        var result = await _userManager.CreateAsync(user, request.Password);
-        if (!result.Succeeded)
-        {
-            // Localize each error and return the first one
-            var localizedErrors = result.Errors
-                .Select(error => _localizer[$"{error.Code}"] ?? error.Description)
-                .ToList();
-            //   return BadRequest<string>(localizedErrors.FirstOrDefault()!);
-            return BadRequest<string>(localizedErrors.FirstOrDefault()!);
+        #region commant
+        //// check email exist or no
+        //var checkEmailUser = await _userManager.FindByEmailAsync(request.Email);
+        //if (checkEmailUser != null) return BadRequest<string>(_localizer[SharedResourcesKeys.Email] + ":" + _localizer[SharedResourcesKeys.IsExist]);
+        //// check username exist or no
+        //var checkUsername = await _userManager.FindByNameAsync(request.Username);
+        //if (checkUsername != null) return BadRequest<string>(_localizer[SharedResourcesKeys.UserName] + ":" + _localizer[SharedResourcesKeys.IsExist]);
+        //// Make Mapping
+        //var user = _mapper.Map<AppUser>(request);
+        //// Create user
+        //var result = await _userManager.CreateAsync(user, request.Password);
+        //if (!result.Succeeded)
+        //{
+        //    // Localize each error and return the first one
+        //    var localizedErrors = result.Errors
+        //        .Select(error => _localizer[$"{error.Code}"] ?? error.Description)
+        //        .ToList();
+        //    //   return BadRequest<string>(localizedErrors.FirstOrDefault()!);
+        //    return BadRequest<string>(localizedErrors.FirstOrDefault()!);
 
+        //}
+        //return Created(_localizer[SharedResourcesKeys.SignUpSuccess].Value);
+        #endregion
+
+
+        var user = _mapper.Map<AppUser>(request);
+        //Create
+        var createResult = await _appUserService.AddUserAsync(user, request.Password);
+        switch (createResult)
+        {
+            case "EmailIsExist": return BadRequest<string>(_localizer[SharedResourcesKeys.IsExist]);
+            case "UserNameIsExist": return BadRequest<string>(_localizer[SharedResourcesKeys.IsExist]);
+            case "ErrorInCreateUser": return BadRequest<string>("Error in CreateUser");
+            case "Failed": return BadRequest<string>("");
+            case "Success": return Success<string>("");
+            default: return BadRequest<string>(createResult);
         }
-        return Created(_localizer[SharedResourcesKeys.SignUpSuccess].Value);
+
     }
 
     public async Task<Response<string>> Handle(EditUserCommand request, CancellationToken cancellationToken)

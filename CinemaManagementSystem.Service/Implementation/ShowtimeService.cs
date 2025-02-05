@@ -73,6 +73,7 @@ namespace CinemaManagementSystem.Service.Implementation
         {
             var result = await _showtimeRepository.GetTableNoTracking()
                 .Include(r => r.Reservations)
+                .Include(r => r.Reservations).ThenInclude(a => a.AppUser)
                 .Include(m => m.Movie)
                 .Include(t => t.Theater).ToListAsync();
             return result;
